@@ -1,0 +1,164 @@
+# 一键打包说明
+
+## 📦 快速打包流程
+
+### 第1步：确保Python已安装
+
+打开命令提示符，输入：
+```bash
+python --version
+```
+
+或
+
+```bash
+py --version
+```
+
+应该显示Python版本号（例如：Python 3.11.x）
+
+### 第2步：安装PyInstaller
+
+```bash
+pip install pyinstaller
+```
+
+或
+
+```bash
+py -m pip install pyinstaller
+```
+
+### 第3步：执行打包
+
+#### 方法A：双击运行（推荐）
+
+直接双击 `build.bat` 文件。
+
+#### 方法B：命令行运行
+
+在当前目录打开命令提示符，执行：
+
+```bash
+build.bat
+```
+
+#### 方法C：手动打包命令
+
+```bash
+pyinstaller --name="灯光参数转辐射瓦特计算器" --onefile --windowed calculator_gui.py
+```
+
+### 第4步：获取EXE
+
+打包完成后，在 `dist` 文件夹中找到：
+
+```
+dist/灯光参数转辐射瓦特计算器.exe
+```
+
+### 第5步：测试EXE
+
+双击运行EXE文件，确保正常工作。
+
+### 第6步：准备分发包
+
+创建一个文件夹，包含以下文件：
+
+```
+分享包/
+├── 灯光参数转辐射瓦特计算器.exe  ← 从dist复制
+├── README.md                      ← 从当前目录复制
+├── 使用指南.md                    ← 从当前目录复制
+└── 给同事的快速说明.txt           ← 从当前目录复制
+```
+
+### 第7步：分享
+
+将"分享包"文件夹压缩成ZIP，发送给同事。
+
+---
+
+## ⚡ 超快速版本（给熟练用户）
+
+```bash
+# 1. 安装PyInstaller
+pip install pyinstaller
+
+# 2. 打包
+pyinstaller --name="灯光参数转辐射瓦特计算器" --onefile --windowed calculator_gui.py
+
+# 3. EXE在 dist 文件夹中
+```
+
+---
+
+## 🔧 常见问题
+
+### Q: 提示"python不是内部或外部命令"？
+
+A: Python未安装或未添加到PATH。解决方案：
+1. 下载并安装Python（https://www.python.org/）
+2. 安装时勾选"Add Python to PATH"
+3. 或使用 `py` 命令代替 `python`
+
+### Q: 打包失败？
+
+A: 可能的原因和解决方案：
+
+1. **PyInstaller未安装**
+   ```bash
+   pip install pyinstaller
+   ```
+
+2. **权限不足**
+   - 以管理员身份运行命令提示符
+   - 或在其他目录尝试
+
+3. **路径问题**
+   - 确保在包含`calculator_gui.py`的目录执行命令
+
+### Q: EXE太大（>15MB）？
+
+A: 正常现象。PyInstaller打包了Python解释器和所有依赖。
+
+### Q: Windows Defender删除了EXE？
+
+A: 误报。可以：
+1. 将文件夹添加到排除项
+2. 提交误报给Microsoft
+3. 暂时禁用实时保护
+
+---
+
+## 📝 打包选项说明
+
+```bash
+--name="..."      # EXE文件名
+--onefile         # 打包成单个文件
+--windowed        # 无控制台窗口（GUI程序）
+--icon=xxx.ico    # 自定义图标（可选）
+--add-data        # 添加数据文件（可选）
+```
+
+---
+
+## ✅ 验证清单
+
+打包完成后，检查：
+
+- [ ] EXE文件存在于 dist 文件夹
+- [ ] 双击EXE能正常打开界面
+- [ ] 界面显示正常
+- [ ] 能输入参数
+- [ ] 计算功能正常
+- [ ] 帮助按钮可用
+- [ ] 复制功能正常
+
+---
+
+**完成后你就可以分享给同事使用了！** 🎉
+
+---
+
+**更新日期**: 2026-01-21

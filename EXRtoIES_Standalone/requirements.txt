@@ -1,0 +1,13 @@
+# 依赖库
+numpy>=1.19.0
+Pillow>=8.0.0
+
+# 可选（推荐）
+# OpenEXR - 更好的EXR支持
+# 安装命令：pip install OpenEXR
+
+# 可视化（可选但推荐）
+matplotlib>=3.3.0
+
+# 打包工具
+pyinstaller>=6.0.0

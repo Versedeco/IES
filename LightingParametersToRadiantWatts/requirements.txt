@@ -1,0 +1,8 @@
+# 灯光参数转辐射瓦特计算器
+# 打包为EXE所需依赖
+
+# PyInstaller (用于打包EXE)
+pyinstaller==6.3.0
+
+# 如果使用的是Python 3.11或更高版本，可能需要这个
+# altgraph==0.17.4
