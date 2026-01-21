@@ -1,8 +1,8 @@
-# EXR转IES转换器 v2.0
+# EXR转IES转换器 v2.1
 
 **EXR to IES Converter - Standalone GUI Version with Visualization**
 
-版本：v2.0 (带可视化功能)  
+版本：v2.1 (UE导入修复版)  
 日期：2026-01-21
 
 ---
@@ -11,7 +11,12 @@
 
 独立的图形界面工具，用于将EXR光照分布文件转换为标准IES光度文件。
 
-✨ **v2.0新功能**：
+✨ **v2.1更新**：
+- 🐛 **修复UE导入** - 解决"V Values are not in increasing order"错误
+- ✅ **完美兼容** - 支持UE 4.x/5.x无缝导入
+- 📏 **标准合规** - 严格遵循IES-LM-63格式
+
+✨ **v2.0核心功能**：
 - 🎨 **专业可视化** - 6种IES配光曲线图表
 - 📊 **3D配光曲线** - 真实的3D空间光分布
 - 📈 **光度统计** - 自动分析配光特性

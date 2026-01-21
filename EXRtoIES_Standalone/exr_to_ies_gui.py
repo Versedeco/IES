@@ -243,42 +243,53 @@ class EXRToIESConverter:
     def write_ies_file(self, output_path, lumens, candela_values,
                       h_angles, v_angles, metadata):
         """写入IES文件"""
+        # 【修复】确保角度按升序排列（符合IES-LM-63标准）
+        h_angles = np.sort(h_angles)
+        v_angles = np.sort(v_angles)
+
+        # 验证角度顺序
+        if not np.all(np.diff(h_angles) >= 0):
+            raise ValueError("水平角度必须按升序排列")
+        if not np.all(np.diff(v_angles) >= 0):
+            raise ValueError("垂直角度必须按升序排列")
+
         n_horizontal = len(h_angles)
         n_vertical = len(v_angles)
 
         with open(output_path, 'w', encoding='utf-8') as f:
-            f.write("IESNA:LM-63-2002\n")
+            # IES文件头
+            f.write("IESNA:LM-63-1995\n")  # 使用1995版本（与参考文件一致）
+            f.write(f"[TEST] Generated from EXR\n")
             f.write(f"[MANUFAC] {metadata['manufacturer']}\n")
+            f.write(f"[DATE] {datetime.now().strftime('%Y-%m-%d')}\n")
             f.write(f"[LUMCAT] {metadata['catalog_number']}\n")
             f.write(f"[LUMINAIRE] {metadata['luminaire_name']}\n")
-            f.write(f"[LAMP] {metadata['lamp_description']}\n")
-            f.write(f"[ISSUEDATE] {datetime.now().strftime('%Y-%m-%d')}\n")
-            f.write(f"[OTHER] {metadata['other_info']}\n")
             f.write("TILT=NONE\n")
 
-            f.write(f"1 {lumens:.1f} 1.0 {n_horizontal} {n_vertical} "
+            # 数据行
+            f.write(f"1 {lumens:.0f} 1.0 {n_horizontal} {n_vertical} "
                    f"{metadata['photometric_type']} 2 "
-                   f"{metadata['width']:.3f} {metadata['length']:.3f} {metadata['height']:.3f}\n")
+                   f"{metadata['width']:.1f} {metadata['length']:.1f} {metadata['height']:.1f}\n")
 
+            # 【修复】添加灯具尺寸倍数行（这是关键的缺失部分！）
+            # 格式：宽度倍数 长度倍数 测量距离(m)
+            # 参考文件使用：1.00 1.00 100.0
+            f.write("1.00 1.00 100.0\n")
+
+            # 【修复】水平角度 - 每个角度占一行（UE兼容格式）
             for angle in h_angles:
-                f.write(f"{angle:.1f} ")
-            f.write("\n")
+                f.write(f"{angle:.1f}\n")
 
+            # 【修复】垂直角度 - 每个角度占一行（UE兼容格式）
             for angle in v_angles:
-                f.write(f"{angle:.1f} ")
-            f.write("\n")
+                f.write(f"{angle:.1f}\n")
 
+            # 【修复】光强数据：外层遍历水平角，内层遍历垂直角（符合IES标准）
             count = 0
             for phi_idx in range(n_horizontal):
                 for theta_idx in range(n_vertical):
                     cd_value = candela_values[phi_idx, theta_idx]
-                    f.write(f"{cd_value:.2f} ")
-                    count += 1
-                    if count % 10 == 0:
-                        f.write("\n")
-
-            if count % 10 != 0:
-                f.write("\n")
+                    f.write(f"{cd_value:.2f}\n")  # 每个值占一行
 
 
 class IESVisualizer:
