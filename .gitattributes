@@ -1,2 +1,5 @@
+LargeFiles/** filter=lfs diff=lfs merge=lfs -text
+LargeFiles/LampForTest/** filter=lfs diff=lfs merge=lfs -text
+LargeFiles/LampForTest/*.blend filter=lfs diff=lfs merge=lfs -text
 *.exe filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
